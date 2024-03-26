@@ -8,6 +8,7 @@ namespace FrontEnd.Helpers.Implementations
     public class DistritoHelper : IDistritoHelper
     {
         IServiceRepository ServiceRepository;
+        public string Token { get; set; }
 
         public DistritoHelper(IServiceRepository serviceRepository)
         {
@@ -82,13 +83,13 @@ namespace FrontEnd.Helpers.Implementations
 
             return lista;
 
-
-
         }
 
         public DistritoViewModel GetDistrito(int id)
         {
             DistritoViewModel distrito = new DistritoViewModel();
+            ServiceRepository.Client.DefaultRequestHeaders.Authorization =
+               new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token);
             HttpResponseMessage responseMessage = ServiceRepository.GetResponse("api/Distrito/" + id.ToString());
             if (responseMessage != null)
             {

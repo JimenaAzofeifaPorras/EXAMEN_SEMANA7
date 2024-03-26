@@ -1,10 +1,11 @@
 ﻿using FrontEnd.Helpers.Interfaces;
 using FrontEnd.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrontEnd.Controllers
 {
+    [Authorize]
     public class DistritoController : Controller
     {
         IDistritoHelper DistritoHelper;
@@ -25,6 +26,8 @@ namespace FrontEnd.Controllers
         // GET: DistritoController/Details/5
         public ActionResult Details(int id)
         {
+            DistritoHelper.Token = HttpContext.Session.GetString("token");
+
             DistritoViewModel distrito = DistritoHelper.GetDistrito(id);
             return View(distrito);
         }
